@@ -15,7 +15,7 @@ from tempfile import mkstemp
 
 PY3 = sys.version_info[0] == 3
 
-if PY3:  
+if PY3:
     # We are using Python 3.x
     from tkinter import *
     import tkinter.messagebox as tkMessageBox
@@ -26,7 +26,7 @@ else:
     # Python 2.x
     from Tkinter import *
     import tkSimpleDialog, tkFileDialog, tkMessageBox
-    
+
 # A few few globals
 
 PlayPID = None        # PID of currently playing midi
@@ -51,13 +51,13 @@ class Opts():
     # ./xpmidiOps file. The defaults are just reasonable
     # choices and are mostly overwritten by the user prefs
     # in the file.
-    FavoriteDirs = [] 
+    FavoriteDirs = []
     CurrentDir =  ['.']
-    Bcolor =  'white'
-    Fcolor = 'medium blue'
-    PlayOpts = '' 
+    Bcolor =  'grey'
+    Fcolor = 'red'
+    PlayOpts = ''
     HumanSort = False
-    MidiPlayer = 'aplaymidi' 
+    MidiPlayer = 'aplaymidi'
     KillOnAbort = True
     PDFdisplay = ''
     PDFopts = ''
@@ -65,17 +65,17 @@ class Opts():
     PDFsDir = []
     LastPlayDisplay = False
     LastFilePlayed = ''
-    
+
     #######################################################
     # These variables start with '_' and are not saved into the rc file
-    
+
     _rcFile=os.path.expanduser("~/.xpmidiOpts")
     _fullsize = False
 
     #######################################################
     # Functions are all staticmethod since we've not
     # instantiated the class and there is no "self".
-    
+
     @staticmethod
     def saveopts():
         dt = {}
@@ -100,14 +100,14 @@ class Opts():
         f.readline()
         f.readline()
         data = json.load(f)
-        
+
         for key, value in data.items():
             setattr(Opts, key, value)
 
     @staticmethod
     def cmdLine():
         """ Parse the command line. Return """
-        
+
         try:
             opts, args = getopt.gnu_getopt(sys.argv[1:],  "vf", [])
         except getopt.GetoptError:
@@ -197,15 +197,17 @@ def makeButtonBar(parent, row=0, column=0, buttons=(())):
     bf.grid(row=row, column=column, sticky=W)
     return bf
 
-def makeListBox(parent, width=50, height=10, selectmode=BROWSE, row=0, column=0):
+
+def makeListBox(parent, width = 150, height=30, selectmode=BROWSE, row=0, column=0):
     """ Create a list box with x and y scrollbars. """
-    
+
+
     f=Frame(parent)
     ys=Scrollbar(f)
     xs=Scrollbar(f)
     lb=Listbox(f,
-               bg=Opts.Bcolor,
-               fg=Opts.Fcolor,
+               bg='white',
+               fg='red',
                width=width,
                height=height,
                yscrollcommand=ys.set,
@@ -221,10 +223,10 @@ def makeListBox(parent, width=50, height=10, selectmode=BROWSE, row=0, column=0)
 
     lb.grid(column=1,row=0, sticky=N+E+W+S)
 
-    f.grid(row=row, column=column, sticky=E+W+N+S) 
-    f.grid_rowconfigure(0, weight=1)   
+    f.grid(row=row, column=column, sticky=E+W+N+S)
+    f.grid_rowconfigure(0, weight=1)
     f.grid_columnconfigure(1, weight=1)
-    
+
     return  lb
 
 
@@ -234,16 +236,16 @@ def makeEntry(parent, label="Label", var=None, column=0, row=0):
     e=Entry(f, textvariable=var, width=30)
     e.grid(column=1, row=0, sticky=W)
     f.grid( column=column, row=row)
-    
+
     return e
 
 def makeCheck(parent, label="Label", var=None, column=0, row=0):
     f=Frame(parent)
     l=Label(f, anchor=E, width=15, padx=20, pady=10, text=label).grid(column=0, row=0)
-    e=Checkbutton(f, anchor=W, width=30, variable=var)
+    e=Checkbutton(f, anchor=W, width=40, variable=var)
     e.grid(column=1, row=0, sticky=W)
     f.grid( column=column, row=row)
-    
+
     return e
 
 #########################################
@@ -256,7 +258,7 @@ def makeCheck(parent, label="Label", var=None, column=0, row=0):
 
 class setOptions(object):
 
-    
+
     def __init__(self):
         def getColor():
             return(askcolor()[-1])
@@ -265,10 +267,10 @@ class setOptions(object):
             return
 
         self.f=f=Toplevel()
-        if root.winfo_viewable():  
+        if root.winfo_viewable():
             f.transient(root)
 
-        bf=makeButtonBar(f, row=0, column=0, 
+        bf=makeButtonBar(f, row=0, column=0,
             buttons=(("Cancel", self.f.destroy), ("Apply", self.apply) ))
 
         self.tkmidi = StringVar()
@@ -281,21 +283,21 @@ class setOptions(object):
 
         self.abort = BooleanVar()
         self.abort.set(Opts.KillOnAbort)
-        makeCheck(f, label="Kill notes on abort", var=self.abort, row=3)
-        
+        makeCheck(f, label="KillOnAbort", var=self.abort, row=3)
+
         self.human = BooleanVar()
         self.human.set(Opts.HumanSort)
         makeCheck(f, label="Human Sort", var=self.human, row=4)
-        
+
         self.lastplay = BooleanVar()
         self.lastplay.set(Opts.LastPlayDisplay)
-        makeCheck(f, label="Start with Last Played", var=self.lastplay, row=5)
+        makeCheck(f, label="StartWLastPlayed", var=self.lastplay, row=5)
 
         self.tkfcolor = StringVar()
         self.tkfcolor.set(Opts.Fcolor)
         makeEntry(f, label="Foreground Color", var=self.tkfcolor,   row=6)
-        
-        
+
+
         self.tkbcolor = StringVar()
         self.tkbcolor.set(Opts.Bcolor)
         makeEntry(f, label="Background Color", var=self.tkbcolor,   row=7)
@@ -316,10 +318,10 @@ class setOptions(object):
         f.grid_columnconfigure(0, weight=1)
 
        	f.grab_set()
-        root.wait_window(f)	
+        root.wait_window(f)
 
- 
-    def apply(self): 
+
+    def apply(self):
         Opts.MidiPlayer = self.tkmidi.get()
         Opts.PlayOpts = self.tkpopt.get()
 
@@ -333,7 +335,7 @@ class setOptions(object):
         Opts.PDFdisplay = self.tkpdfd.get()
         Opts.PDFopts = self.tkdispopt.get()
         Opts.PDFsDir = self.tkdispdir.get().split(',')
-        
+
         fg = self.tkfcolor.get()
         bg = self.tkbcolor.get()
 
@@ -364,20 +366,20 @@ class selectFav(object):
             return
 
         self.f=f=Toplevel()
-        if root.winfo_viewable():  
+        if root.winfo_viewable():
             f.transient(root)
 
         makeLabelBox(f, text="Select Favorite Directory", row=0, column=0)
 
-        bf=makeButtonBar(f, row=1, column=0, 
+        bf=makeButtonBar(f, row=1, column=0,
                buttons=(("Done", self.f.destroy),
                         ("Delete", self.delete),
                         ("Add Current", self.addToFav),
                         ("Select", self.select) ) )
-      
+
         self.lb = lb = makeListBox(f, height=10, selectmode=MULTIPLE, row=2, column=0)
         lb.bind("<Double-Button-1>", self.dclick)
-        
+
         # Make the listbox frame expandable
 
         f.grid_rowconfigure(2, weight=1)
@@ -471,7 +473,7 @@ class Application(object):
         self.lb=lb = makeListBox(root, height=28, row=1, column=0)
 
         self.elasped = 0
-       
+
         bf = makeButtonBar(root, row=0, column=0, buttons=(
              ("Quit", self.quitall ),
              ("Stop", self.stopPmidi ),
@@ -480,17 +482,17 @@ class Application(object):
              ("Favorites", selectFav ),
              ("Options", setOptions ) ) )
 
-    
+
         self.timeButton = Button(bf, width=5, height=1)
         self.timeButton.grid(column=6, row=0, padx=10)
-        
-        
+
+
         # Make the listbox frame expandable
 
         root.grid_rowconfigure(1, weight=1)
         root.grid_columnconfigure(0, weight=1)
 
-        # some bindings 
+        # some bindings
 
         lb.bind("<Return>",  self.loadfileRet)
         lb.bind("<Button-1>", self.loadfileClick)
@@ -508,7 +510,7 @@ class Application(object):
 
         lb.bind('<F1>', self.displayOnly)
         lb.bind('<F2>', self.rotateDisplayList)
- 
+
         for a in "=+":
             root.bind(a, self.rndSelect)
 
@@ -558,7 +560,7 @@ class Application(object):
         self.lb.activate(x)
         self.lb.see(x)
         self.lb.select_set(x)
-    
+
 
     def keyPress(self, ev):
         """ Callback for the alpha keys a..z. Finds 1st entry matching keypress. """
@@ -566,11 +568,11 @@ class Application(object):
         c=self.lastKeyHit = ev.char.upper()
 
         # Timer. If there is less than 3/4 second between this key and
-        # the previous we concat the keypress string. Else, start with 
+        # the previous we concat the keypress string. Else, start with
         # new key.
 
         tm = time.time()
-        delay = tm - self.lastkeytime 
+        delay = tm - self.lastkeytime
         self.lastkeytime = tm     # save time of this key for next time
 
         if delay < .75:
@@ -591,10 +593,10 @@ class Application(object):
                 self.lb.see(x)
                 self.lb.select_set(x)
                 break
-    
 
 
-    """ Play a selected file. This is a listbox callback. 
+
+    """ Play a selected file. This is a listbox callback.
         Two callback funcs are needed: one for a mouse click,
         the other for a <Return>.
     """
@@ -609,7 +611,7 @@ class Application(object):
 
         self.lb.activate(self.lb.nearest(w.y))
         self.loadfile(self.lb.get(self.lb.nearest(w.y)))
-            
+
     def loadfile(self, f):
         global PlayPID
 
@@ -621,7 +623,7 @@ class Application(object):
 
         self.displayPDF(f)
         PlayPID = self.playfile(f)
-        
+
         self.CurrentFile = f.split('/')[-1]
 
         # Save the current filename, without mid extension
@@ -649,9 +651,9 @@ class Application(object):
             except OSError:   # our display is gone, kill the player
                 DisplayPID = None
                 self.stopPmidi()
-                
+
         # PlayPID is set in loadfile(). If not set, then we are not
-        # playing at all, or the "terminate midi" file is being played. 
+        # playing at all, or the "terminate midi" file is being played.
         if PlayPID:
             t = time.time() - self.startPlayTime
             self.timeButton.config(text="%0d:%02d" % (int(t/60), int(t % 60) ))
@@ -660,10 +662,10 @@ class Application(object):
                 s = os.waitpid(PlayPID, os.WNOHANG)
                 # after is one-time only so needs to reset after call
                 root.after(500, self.checkfor)
-                
+
             except OSError:  # player is gone, kill display
                 if DisplayPID:
-                    os.kill(DisplayPID, signal.SIGKILL) 
+                    os.kill(DisplayPID, signal.SIGKILL)
                 DisplayPID = None
                 PlayPID = None
                 # reset the start time, but leave the display with
@@ -672,7 +674,7 @@ class Application(object):
                 self.welcome()
 
     stopMidiNotes = None  # a file with the stop midi data
-    
+
     def stopPmidi(self, w=''):
         """ Stop currently playing MIDI. """
 
@@ -695,8 +697,8 @@ class Application(object):
             returns a process ID and a status indication. We check the PID
             returned. If this value is equal to the current PID then
             the process has died ... and we can ignore the whole issue.
-        """ 
-        
+        """
+
         if cPID:
             try:
                 pid,s = os.waitpid(cPID, os.WNOHANG)
@@ -705,13 +707,13 @@ class Application(object):
 
             if pid:
                 return
-            
+
             # stop current player, there may be hanging notes
             x=os.kill(cPID, signal.SIGKILL)
 
             if Opts.KillOnAbort:
                 if not self.stopMidiNotes:   # only create the file once
-                    
+
                 # Create a standard MIDI file which sets all notes to OFF.
                     _, self.stopMidiNotes = mkstemp(prefix='xpmidi-alloff-', suffix='.mid')
                     with open(self.stopMidiNotes, 'wb') as fout:
@@ -726,7 +728,7 @@ class Application(object):
                         fout.write(b"\4\xf0\5\x7e\x7f\x09\1\xf7")
                         # EOF status event (4 ticks offset)
                         fout.write(b"\4\xff\x2f\0")
-                
+
                 self.playfile(self.stopMidiNotes, wait=os.P_WAIT)
 
         self.welcome()
@@ -739,12 +741,12 @@ class Application(object):
         self.startPlayTime = time.time()
 
         # 3rd arg is a list! Player name, options and filename.
-        
+
         ##a=os.spawnvp(os.P_NOWAIT, "sync", []) # avoid delays while playing (maybe!)
-        
+
         op = shlex.split(Opts.PlayOpts)
 
-        return os.spawnvp(wait, Opts.MidiPlayer, [Opts.MidiPlayer] + op + [f]  ) 
+        return os.spawnvp(wait, Opts.MidiPlayer, [Opts.MidiPlayer] + op + [f]  )
 
     # PDF display
 
@@ -757,14 +759,14 @@ class Application(object):
         Opts.PDFsDir.append(Opts.PDFsDir.pop(0))
         opts={'aspect':4}
         tkMessageBox.showinfo(message="DisplayPDF dir: %s" % Opts.PDFsDir[0])
-        
+
     def displayOnly(self, w):
         """ Callback for <F1>. """
 
         self.stopPmidi()
         self.displayPDF(self.fileList[self.lb.get(ACTIVE)] )
 
-        
+
     def displayPDF(self, midifile):
         """ Find and display a PDF for the currently playing file. """
 
@@ -772,11 +774,11 @@ class Application(object):
 
         if not Opts.PDFdisplay:
             return
-        
+
         if DisplayPID:
             os.kill(DisplayPID, signal.SIGKILL)
             DisplayPID = None
-            
+
         f = os.path.basename(midifile).replace(".mid", ".pdf")
         if len(Opts.PDFsDir):
             t = os.path.join(os.path.expanduser(Opts.PDFsDir[0]), f)
@@ -804,9 +806,9 @@ class Application(object):
     # the program with a signal.
     def quitall(self, ex=''):
         """ All done. Save current dir, stop playing and exit. """
-        
+
         self.stopPmidi()
-        
+
         Opts.saveopts()
 
         # Remove possible midi-stop file
@@ -814,7 +816,7 @@ class Application(object):
             os.remove(self.stopMidiNotes)
         except:
             pass
-    
+
         sys.exit(0)
 
 
@@ -824,7 +826,7 @@ class Application(object):
                 filetypes=[("Playlists","*.xpmidilst")], initialdir="~")
         else:
             infile = fn
-            
+
         try:
             inpath = open(os.path.expanduser(infile), 'r')
             Opts.PlayListFile = infile
@@ -846,23 +848,23 @@ class Application(object):
                 dir = l[4:]
             else:
                 flist.append(os.path.expanduser(os.path.join(dir, l)))
-        
+
         self.updateList(flist, 0)
-        
+
 
     def updateList(self, files=None, sort=1):
         """ Update the list box with with midi files in the selected directories.
-    
+
             1. If files is NOT None, it has to be a list of midi file names. If
                there are files, skip (2).
             2. Create a list of all the files with a .mid(i) extension in all the dirs,
             3. Strip out the actual filename (less the mid ext) from each entry
                and create a dic entry with the filename as the key and the complete
                path as the data.
-            4. Update the listbox 
+            4. Update the listbox
         """
 
-        
+
         if not files:
             files=[]
             for f in Opts.CurrentDir:
@@ -881,7 +883,7 @@ class Application(object):
             a = os.path.splitext(os.path.basename(f))[0]  # base filename without ext
             self.fileList[a] = f
             tlist.append(a)
-            
+
         self.lb.delete(0, END)
 
         if sort:
@@ -890,14 +892,14 @@ class Application(object):
                     tlist.sort(key=functools.cmp_to_key(self.human_sort_cmp))
                 else:
                     tlist.sort(cmp=self.human_sort_cmp)
-                    
+
             else:
                 tlist.sort()
-                
+
         for f in tlist:
             self.lb.insert(END, f)
             self.lb.select_set(0)
-        
+
         self.welcome()
 
 
@@ -937,7 +939,7 @@ filelist = Opts.cmdLine()
 root = Tk()
 root.title("Xpmidi - pmidi frontend")
 
-root.option_add('*font', "Georgia 20 bold")
+root.option_add('*font', "Comforta 24 bold")
 #if Opts._fullsize:
 #    root.geometry("%dx%s" % root.maxsize())
 
@@ -948,7 +950,3 @@ if filelist:
     app.updateList(filelist)
 
 root.mainloop()
-
-
-
-
