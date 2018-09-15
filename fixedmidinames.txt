@@ -284,7 +284,6 @@ Scott Joplin - Gladiolus Rag (1907) Smythe.mid
 Chopin - Op. 62 Nocturne No.2 in E.mid
 Bach, JS - Minuet in G (2).mid
 Chopin Nocturne  Op. 33 No.02.mid
-Classical-III (222) MID.zip
 Chopin Prelude No.9.mid
 Shostakovich  Op. 87 Prelude 10.mid
 Tchaikovsky - Die Jahreszeiten Februar.mid
@@ -689,14 +688,12 @@ Schumann Sechs Moments MuNo.4 cis-moll.mid
 Chopin Prelude  Op. 28 No.14.mid
 Beethoven - Ich denke dein-01.mid
 Mendelsohnn Lieder ohne Worte Morgenlied.mid
-Classical-V 370 (MIDI).zip
 Mozart Sonate KV 545 1 Satz.mid
 Tchaikovsky - Neapolitan Song  Op. 39 No.18.mid
 Beethoven Sonate No.23 (Appassionata) F min  Op. 57 2nd Mov.mid
 Liszt - No.13 Hungarian Raphsody.mid
 Bach - BWV-0808 Mov-05 Gavottes I & II English Suite.mid
 Chopin Prelude  Op. 28 No.17.mid
-Classical-VII (MID).zip
 Bach - BWV-0847 No.2 Well Tempered Clavier.mid
 Chopin - Waltz in C-sharp  Op. 64 No.2.mid
 Bach, JS - Italian Concerto Mvt-1.mid
@@ -819,6 +816,7 @@ Faure - Dolly Suite  Op. 06.mid
 Beethoven - Pathetique Sonata  Op. 13 Mvt-3.mid
 Wagner - Overture Tannhauser [Liszt transcription].mid
 Bach - BWV-0794 No.08 3-part Sinfonia in F.mid
+Albeniz Espana  Op. 165 Capricho Catalan.mid 
 Bach, JS - Prelude (WTC Bk-1 No.21).mid
 Bach - BWV-0857 No.12 Well Tempered Clavier.mid
 Alkan - Festin Daesope.mid
@@ -1008,7 +1006,6 @@ Grieg Lyrische Stucke Buch-10  Op. 71 No.03 (1901) Puck.mid
 Schumann Kinderszenen Opus 15.mid
 Mozart - K381 Piano sonata in D.mid
 Liszt - 1st Concerto (version for 2 pianos).mid
-Classical-I (215) MID.zip
 Beethoven - Symphony No.5 Mvt-1.mid
 Scott Joplin - Cleopha - March & Two Step (1902).mid
 Bach - BWV-0892 No.23 Well Tempered Clavier.mid
@@ -1191,7 +1188,6 @@ Mozart - K521 piano sonata in C.mid
 Liszt - Polonaise in E No.2.mid
 Chopin Sonate No.02 B-min  Op. 35 Mov-03.mid
 Brahms - Waltz 14.mid
-Classical VI (MIDI).zip
 Schubert Sonate D960, 1 Satz.mid
 Chopin - Op. 24 Etudes  Op. 28.mid
 Chopin - Mazurka in B  Op. 33 No.4.mid
@@ -1399,4 +1395,3 @@ Liszt - Canzone Venezia.mid
 Liszt - Mephisto Valse No1.mid
 Chopin - Op. 53 Polonaise in Ab [heroic].mid
 Bach - BWV-0879 No.10 Well Tempered Clavier.mid
-[Finished in 0.34s]
